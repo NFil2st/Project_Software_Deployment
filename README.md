@@ -1,19 +1,21 @@
-# 🧑‍💻 Developer Guide
+# 🧑‍💻 Developer Guide: FinanceFlow
 
-## 1. Feature Development: CRUD Operations
-The core feature is CRUD for financial records. Records must include: **Type** (Income/Expense), **Description**, **Amount**, and **Date**.
+This guide outlines the technical development requirements, focusing on feature delivery, Unit Testing, and CI/CD integration.
 
-## 2. Unit Test Requirements (PM Mandate)
+## 1. Feature Development Scope
+Your primary focus is developing the core features:
+1.  **Login Module:** Implement secure authentication logic.
+2.  **CRUD Functionality:** Enable users to **C**reate, **R**ead, **U**pdate, and **D**elete financial records. Each record must include **Type (Income/Expense)**, **Description**, **Amount**, and **Date**.
+3.  **CI/CD Integration:** Ensure your code is compatible with the automated pipeline, particularly how dependencies are managed and how the application starts inside a Docker container.
 
-You must write Unit Tests that satisfy the PM's mandate:
-* **Minimum Coverage:** You must have **at least 5 Unit Tests**.
-* **Focus Areas:**
-    * **Authentication Logic:** Test the function responsible for validating user input (e.g., minimum password length, valid email format).
-    * **CRUD Data Validation:** Write tests to ensure the API/Service layer correctly rejects invalid financial data (e.g., negative amounts, missing descriptions) (Spec E).
+## 2. Unit Test Implementation (Mandatory)
+You are responsible for implementing **all Unit Tests** and ensuring they run successfully in the CI/CD pipeline.
 
-## 3. Working with the CI/CD Pipeline
+* **Requirement:** You must implement **at least 5 Unit Tests**.
+* **Focus Areas:** Ensure tests cover the API/Service layer for:
+    * **Authentication:** Testing password hashing, user registration, and token validation.
+    * **Data Validation (Spec E):** Testing that the CRUD endpoints correctly handle invalid inputs (e.g., negative amounts, empty descriptions).
 
-The pipeline runs automatically on every push. Your goal is to keep the pipeline **GREEN**:
-1.  **Build Compatibility:** Ensure your code can be built successfully on the clean environment defined by the pipeline.
-2.  **Local Testing:** Always run locally before pushing to ensure your Unit Tests pass.
-3.  **Dockerization:** Work with the PM to maintain the `Dockerfile` to ensure the application builds correctly into a stable container.
+## 3. Deployment Artifacts
+* **Dockerfile:** Maintain the `Dockerfile` to ensure the application environment is correctly set up for the final Container deployment. 
+* **Testing Integration:** Work with the Tester to ensure the integration points (API endpoints) are stable for their Automation Tests.
