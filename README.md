@@ -1,47 +1,47 @@
-# 💰 Financial To-Do List Application
+# 💰 FinanceFlow: Financial Task Manager
 
 ## 🚀 Project Overview
-Application is a simple, secure web application designed to help users track and manage their financial tasks and transactions (e.g., "Pay bills," "Budget review," "Record expense for Q3").
+FinanceFlow is a simple, secure web application designed for users to track and manage their financial tasks and small-scale transactions (e.g., "Record Monthly Expense," "Check Budget Status").
 
-The primary goal of this project is to implement a robust **Continuous Integration/Continuous Deployment (CI/CD)** pipeline, ensuring automated testing and deployment for every code change.
+The core objective of this project is to implement a robust **Continuous Integration/Continuous Deployment (CI/CD)** pipeline, ensuring automated testing and deployment for every code change, fulfilling all group project requirements.
 
 ---
 
-## 🔒 Key Requirements & Deliverables (Must-Haves)
+## 🔒 Project Requirements Checklist
 
 All work must adhere to the following mandatory requirements:
 
 1.  **Authentication:** The system **must** include at least one Login screen (Front-end or API-based authentication).
-2.  **Automated Deployment:** Deployment **must** be automated via a CI/CD pipeline connected to this remote repository (e.g., GitHub Actions).
-3.  **Containerization:** The final build **must** successfully deploy a Docker image to a Container Repository (e.g., Docker Hub or GitHub Container Registry).
+2.  **Automated Deployment:** Deployment **must** be automated via a CI/CD pipeline connected to this remote repository (e.g., GitHub, GitLab).
+3.  **Containerization:** The final build **must** successfully deploy a Docker image to a Container Repository (e.g., Docker Hub or GHCR).
 4.  **Unit Testing:** The project **must** contain Unit Tests equal to or exceeding the number of group members.
+5.  **Quality Check:** Joint responsibility to fix issues arising from Build/Test/Deploy phases.
 
 ---
 
 ## 🛠️ CI/CD & Deployment Plan (PM Responsibility)
 
-The automated pipeline is defined in `.github/workflows/main.yml` (or equivalent) and must execute the following stages on every push to the `main` or a `feature/` branch:
+The automated pipeline is defined in `.github/workflows/main.yml` and must execute the following stages on every code push:
 
-| Stage | Action | Responsibility |
-| :--- | :--- | :--- |
-| **1. Build & Lint** | Install dependencies, check code style, and build the application. | Developer |
-| **2. Test: Unit** | Run all Unit Tests (minimum = group members). **Must Pass** before proceeding. | Developer/Tester |
-| **3. Test: Integration/E2E** | Run the Automation Test Suite (Testing Login and CRUD functionality). **Must Pass**. | Tester |
-| **4. Containerize** | Build the official Docker Image for the application. | Developer/PM |
-| **5. Deploy** | Push the Docker Image to the Container Registry (e.g., Docker Hub). | PM |
+| Stage | Action | Triggered By | Responsibility |
+| :--- | :--- | :--- | :--- |
+| **1. Build & Lint** | Install dependencies, check code style, and build the application. | Developer Push | Developer |
+| **2. Test: Unit** | Run all required Unit Tests. **Must Pass** (Minimum = Group Member Count). | Developer Push | Developer |
+| **3. Test: Automation (E2E)** | Run the comprehensive Test Cases (Testing Login and CRUD functionality).  **Must Pass**. | Stage 2 Success | Tester |
+| **4. Containerize** | Build the official Docker Image (`Dockerfile`). | Stage 3 Success | Developer/PM |
+| **5. Deploy** | Push the Docker Image to the Container Registry.  | Stage 4 Success | PM |
 
 ---
 
 ## ✅ General Test Specification (Test Spec)
 
-The following high-level specifications are the basis for all required testing:
+These high-level specifications (Test Spec) serve as the blueprint for the required Unit and Automation Tests:
 
-### A. Authentication Module (Spec A-C)
-* **Unit Tests:** Validate password hashing, token generation, and input validation logic.
-* **Automation Tests (E2E):** Verify successful login with valid credentials (Spec A), and verify error messages with invalid credentials (Spec B).
-
-### B. CRUD Module (Spec D-F)
-* **Unit Tests:** Validate data structure before saving (e.g., amount must be a number, description cannot be empty).
-* **Automation Tests (E2E):** Verify that a user can successfully Create (D), Read, Update, and Delete (F) a financial record after logging in.
-
-*(Detail specifications are located in the `docs/TEST_SPEC.md` file.)*
+| Feature Module | Specification (Spec ID) | Description |
+| :--- | :--- | :--- |
+| **Authentication** | **Spec A** | Successful Login with Valid Credentials. |
+| | **Spec B** | Display Error Message for Invalid Password/Username. |
+| | **Spec C** | Restrict access to internal pages without proper authentication (Authorization Check). |
+| **CRUD** (Finance Record) | **Spec D** | Successful Creation of a new record with valid data. |
+| | **Spec E** | API rejects data when required fields (e.g., Amount, Description) are missing (Validation). |
+| | **Spec F** | User successfully updates a record and verifies the change is persisted. |
