@@ -1,0 +1,66 @@
+# ----------------------------------------------------------------
+# .gitignore for FinanceFlow
+# This file uses an "allow-list" approach.
+# 1. Ignore everything by default.
+# 2. Explicitly un-ignore the required files and directories.
+# 3. Re-ignore common unwanted files/folders everywhere.
+# ----------------------------------------------------------------
+
+# 1. Ignore everything by default
+*
+
+# 2. Un-ignore the specific files and directories for the project structure.
+# Note: Keep this .gitignore file itself!
+!.gitignore
+
+# --- Allow .github directory structure ---
+!/.github/
+!/.github/workflows/
+!/.github/workflows/main.yml
+
+# --- Allow backend directory structure ---
+!/backend/
+!/backend/Dockerfile
+!/backend/package.json
+!/backend/src/
+# Allow content within these specific subdirectories
+!/backend/src/controllers/
+!/backend/src/controllers/**
+!/backend/src/services/
+!/backend/src/services/**
+!/backend/src/routes/
+!/backend/src/routes/**
+!/backend/src/models/
+!/backend/src/models/**
+!/backend/src/__tests__/
+!/backend/src/__tests__/**
+
+# --- Allow frontend directory structure ---
+!/frontend/
+!/frontend/package.json
+!/frontend/src/
+# Allow content within these specific subdirectories
+!/frontend/src/components/
+!/frontend/src/components/**
+!/frontend/src/pages/
+!/frontend/src/pages/**
+!/frontend/src/services/
+!/frontend/src/services/**
+!/frontend/src/__tests__/
+!/frontend/src/__tests__/**
+
+# --- Allow tests directory structure ---
+!/tests/
+!/tests/e2e/
+!/tests/e2e/auth.spec.js
+!/tests/e2e/crud.spec.js
+!/tests/fixtures/
+!/tests/fixtures/user-data.json
+
+# 3. Re-ignore common unwanted files/folders that might appear inside allowed directories
+# This ensures they are never committed.
+**/node_modules
+**/dist
+**/build
+**/.env
+**/*.log
