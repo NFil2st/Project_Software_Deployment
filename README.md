@@ -22,6 +22,43 @@ You are responsible for implementing **all Unit Tests** and ensuring they run su
 
 # Developer Onboarding Guide
 
+## 📁 Project Structure & File Layout
+
+To ensure the team works in alignment, the project will follow this file structure:
+
+```
+financial-tracker/
+│
+├── .github/
+│   └── workflows/
+│       └── dev.yml        # Main CI/CD Pipeline for the project
+│
+├── backend/                # Folder for the Backend (API)
+│   ├── src/
+│   │   ├── controllers/    # Request/Response handling logic
+│   │   ├── services/       # Core business logic
+│   │   ├── routes/         # API route definitions
+│   │   ├── models/         # Data schemas
+│   │   └── __tests__/      # Unit Tests for the Backend
+│   │
+│   ├── Dockerfile          # File for building the Backend's Docker Image
+│   └── package.json
+│
+├── frontend/               # Folder for the Frontend (UI)
+│   ├── src/
+│   │   ├── components/     # Reusable UI Components
+│   │   ├── pages/          # Web pages (Login, Dashboard)
+│   │   ├── services/       # Code for API calls
+│   │   └── __tests__/      # Unit Tests for the Frontend
+│   │
+│   └── package.json
+│
+└── tests/                  # Folder for Automation Tests (E2E) - Handled by Tester
+    ├── e2e/
+    └── fixtures/
+
+```
+
 ## **1. Prerequisites**
 
 Before you begin, please ensure you have the following installed on your machine:
