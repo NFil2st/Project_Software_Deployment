@@ -1,7 +1,6 @@
-// tests/e2e/auth.e2e.test.ts
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000'; // <-- ไม่ต้องมี /api ถ้า server ไม่มี prefix
+const BASE_URL = 'http://localhost:3000/api';
 
 // --- Interfaces ---
 interface LoginResponse {
@@ -86,6 +85,7 @@ describe('Specs A–G: E2E Tests', () => {
     taskId = ''; // reset taskId
   });
 
+  // Spec G: Currency conversion
   test('Spec G: GET /currency/convert - currency conversion', async () => {
     const res = await axios.get<CurrencyResponse>(`${BASE_URL}/currency/convert`, {
       params: { from: 'USD', to: 'THB', amount: 10 }

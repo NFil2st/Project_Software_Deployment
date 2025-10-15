@@ -15,7 +15,7 @@ describe('Specs A–G: E2E Tests', () => {
     expect(res.status).toBe(200);
     expect(res.data.token).toBeDefined();
     token = res.data.token;
-  });
+  });ผ
 
   test('Spec B: POST /auth/login - invalid', async () => {
     try {
