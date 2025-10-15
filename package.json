@@ -10,7 +10,7 @@
     "build": "tsc -p tsconfig.json",
     "build:tests": "tsc -p tsconfig.test.json",
     "test": "jest --runInBand",
-    "test:e2e": "jest --testPathPattern=tests/e2e"
+    "test:e2e": "jest --testPathPatterns=tests/e2e"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.7.2",
+    "@types/uuid": "^10.0.0",
     "axios": "^1.12.2",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.5",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "uuid": "^13.0.0"
   }
 }

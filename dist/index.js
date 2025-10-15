@@ -11,10 +11,13 @@ const currency_1 = __importDefault(require("./routes/currency"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+// --- Route mapping ตาม Tester Guide ---
 app.use('/auth', auth_1.default);
 app.use('/tasks', tasks_1.default);
 app.use('/currency', currency_1.default);
+// 🚨 ไม่ run listen() ถ้า NODE_ENV=test
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(3000, () => console.log('Server running on port 3000'));
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 exports.default = app;
