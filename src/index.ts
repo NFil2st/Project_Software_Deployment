@@ -1,17 +1,18 @@
 import express from 'express';
-import authRouter from './routes/authRouter';
-import tasksRouter from './routes/tasksRouter';
-import currencyRouter from './routes/currencyRouter';
+import cors from 'cors';
+import userRoutes from './routes/user';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', authRouter);
-app.use('/api/tasks', tasksRouter);       // รวม task CRUD + summary
-app.use('/api/currency', currencyRouter);
+app.use('/api/users', userRoutes);
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 3000;
+
+// 🚨 อย่ารัน listen() ถ้าเป็น test mode
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
 
 export default app;

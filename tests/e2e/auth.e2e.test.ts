@@ -1,0 +1,111 @@
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:3000/api';
+
+// --- Interfaces ---
+interface LoginResponse {
+  token: string;
+}
+
+interface TaskResponse {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  message?: string;
+}
+
+interface CurrencyResponse {
+  result: number;
+}
+
+// --- Test Data ---
+const validUser = { email: 'user@test.com', password: 'p1' };
+const invalidUser = { email: 'user@test.com', password: 'wrong' };
+
+let token: string;
+let taskId: string;
+
+describe('Specs A–G: E2E Tests', () => {
+
+  test('Spec A: POST /auth/login - valid', async () => {
+    const res = await axios.post<LoginResponse>(`${BASE_URL}/auth/login`, validUser);
+    expect(res.status).toBe(200);
+    expect(res.data.token).toBeDefined();
+    token = res.data.token;
+  });
+
+  test('Spec B: POST /auth/login - invalid', async () => {
+    try {
+      await axios.post<LoginResponse>(`${BASE_URL}/auth/login`, invalidUser);
+    } catch (err: any) {
+      expect(err.response.status).toBe(401);
+      expect(err.response.data.message).toBeDefined();
+    }
+  });
+
+  test('Spec C: POST /tasks - create record', async () => {
+    const res = await axios.post<TaskResponse>(`${BASE_URL}/tasks`, {
+      title: 'Test Task',
+      description: 'Sample task for E2E',
+      type: 'todo'
+    }, { headers: { Authorization: `Bearer ${token}` } });
+    expect(res.status).toBe(201);
+    expect(res.data.id).toBeDefined();
+    taskId = res.data.id;
+  });
+
+  test('Spec D: POST /tasks - missing fields', async () => {
+    try {
+      await axios.post(`${BASE_URL}/tasks`, { title: 'Missing description' }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    } catch (err: any) {
+      expect(err.response.status).toBe(400);
+      expect(err.response.data.message).toContain('validation');
+    }
+  });
+
+  test('Spec E: PUT /tasks/:id - update record', async () => {
+    const res = await axios.put<TaskResponse>(`${BASE_URL}/tasks/${taskId}`, {
+      title: 'Updated Task',
+      description: 'Updated description',
+      type: 'done'
+    }, { headers: { Authorization: `Bearer ${token}` } });
+    expect(res.status).toBe(200);
+    expect(res.data.title).toBe('Updated Task');
+  });
+
+  test('Spec F: DELETE /tasks/:id - delete record', async () => {
+    const res = await axios.delete<TaskResponse>(`${BASE_URL}/tasks/${taskId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data.message).toContain('success');
+    taskId = ''; // reset taskId
+  });
+
+  // Spec G: Currency conversion
+  test('Spec G: GET /currency/convert - currency conversion', async () => {
+    const res = await axios.get<CurrencyResponse>(`${BASE_URL}/currency/convert`, {
+      params: { from: 'USD', to: 'THB', amount: 10 }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data.result).toBeDefined();
+    expect(typeof res.data.result).toBe('number');
+  });
+
+  // --- Cleanup: ensure task is deleted if still exists ---
+  afterAll(async () => {
+    if (taskId) {
+      try {
+        await axios.delete(`${BASE_URL}/tasks/${taskId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (err) {
+        console.warn('Cleanup: task may already be deleted');
+      }
+    }
+  });
+
+});
