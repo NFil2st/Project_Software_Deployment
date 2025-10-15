@@ -5,8 +5,8 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  docker-run:
-    name: 🧪 Build & Test inside Docker
+  docker-build:
+    name: 🐳 Build Backend Image
     runs-on: ubuntu-latest
 
     steps:
@@ -14,12 +14,35 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🐳 Build Backend Image
+        id: build_image
         working-directory: ./backend
         run: docker build -t financial-tracker-backend:dev .
+        
+  docker-test-unit:
+    name: 🧪 Run Unit/Integration Tests
+    runs-on: ubuntu-latest
+    needs: [docker-build] 
 
+    steps:
+      - name: 🧩 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🧪 Run Unit and Integration Tests
+        working-directory: ./backend
+        run: |
+          # เนื่องจากเราไม่ได้ Push Image ไปที่ Registry, เราจึงต้องโหลด Image จาก Build Cache
+          # และรันคำสั่ง 'npm test' ภายใน container
+          docker run --rm \
+            --name backend-test-runner \
+            # ใช้ image ที่ build ใน job ก่อนหน้า
+            financial-tracker-backend:dev \
+            # สั่งให้รัน npm test
+            npm test
+            
       - name: 🧩 Run E2E Tests (if defined)
         if: hashFiles('tests/package.json') != ''
         run: |
+          # โค้ดเดิมสำหรับ E2E (ถ้ามี)
           docker run --rm \
             -v ${{ github.workspace }}/tests/e2e:/app \
             -w /app \
