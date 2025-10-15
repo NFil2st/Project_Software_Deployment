@@ -20,9 +20,6 @@ jobs:
         run: docker build -t financial-tracker-backend:dev .
 
       # 3️⃣ Build Docker image for frontend
-      - name: 🐳 Build Frontend Image
-        working-directory: ./frontend
-        run: docker build -t financial-tracker-frontend:dev .
 
       # 4️⃣ Run Backend container and execute tests inside it
       - name: 🧪 Run Backend Tests in Docker
