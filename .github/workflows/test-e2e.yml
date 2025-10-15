@@ -2,7 +2,7 @@ name: E2E Tests (Axios Client)
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ tester ]
 
 jobs:
   e2e:
