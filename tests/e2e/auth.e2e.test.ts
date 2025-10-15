@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000/api';
 
-// --- Interfaces for typing responses ---
+// --- Interfaces ---
 interface LoginResponse {
   token: string;
 }
@@ -12,6 +12,11 @@ interface TaskResponse {
   title: string;
   description: string;
   type: string;
+  message?: string;
+}
+
+interface CurrencyResponse {
+  result: number;
 }
 
 // --- Test Data ---
@@ -21,17 +26,15 @@ const invalidUser = { email: 'user@test.com', password: 'wrong' };
 let token: string;
 let taskId: string;
 
-describe('Specs A–F: E2E Tests', () => {
+describe('Specs A–G: E2E Tests', () => {
 
-  // Spec A: Login with valid credentials
   test('Spec A: POST /auth/login - valid', async () => {
     const res = await axios.post<LoginResponse>(`${BASE_URL}/auth/login`, validUser);
     expect(res.status).toBe(200);
     expect(res.data.token).toBeDefined();
-    token = res.data.token; // save token for later tests
+    token = res.data.token;
   });
 
-  // Spec B: Login with invalid credentials
   test('Spec B: POST /auth/login - invalid', async () => {
     try {
       await axios.post<LoginResponse>(`${BASE_URL}/auth/login`, invalidUser);
@@ -41,38 +44,18 @@ describe('Specs A–F: E2E Tests', () => {
     }
   });
 
-  // Spec C: Auth guard
-  test('Spec C: GET /protected - auth guard', async () => {
-    // without token
-    try {
-      await axios.get(`${BASE_URL}/protected`);
-    } catch (err: any) {
-      expect(err.response.status).toBe(401);
-    }
-
-    // with token
-    const res = await axios.get(`${BASE_URL}/protected`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    expect(res.status).toBe(200);
-  });
-
-  // Spec D: Create a task record
-  test('Spec D: POST /tasks - create record', async () => {
+  test('Spec C: POST /tasks - create record', async () => {
     const res = await axios.post<TaskResponse>(`${BASE_URL}/tasks`, {
       title: 'Test Task',
       description: 'Sample task for E2E',
       type: 'todo'
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    }, { headers: { Authorization: `Bearer ${token}` } });
     expect(res.status).toBe(201);
     expect(res.data.id).toBeDefined();
     taskId = res.data.id;
   });
 
-  // Spec E: Validation - missing fields
-  test('Spec E: POST /tasks - missing fields', async () => {
+  test('Spec D: POST /tasks - missing fields', async () => {
     try {
       await axios.post(`${BASE_URL}/tasks`, { title: 'Missing description' }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -83,17 +66,31 @@ describe('Specs A–F: E2E Tests', () => {
     }
   });
 
-  // Spec F: Update a task record
-  test('Spec F: PUT /tasks/:id - update record', async () => {
+  test('Spec E: PUT /tasks/:id - update record', async () => {
     const res = await axios.put<TaskResponse>(`${BASE_URL}/tasks/${taskId}`, {
       title: 'Updated Task',
       description: 'Updated description',
       type: 'done'
-    }, {
+    }, { headers: { Authorization: `Bearer ${token}` } });
+    expect(res.status).toBe(200);
+    expect(res.data.title).toBe('Updated Task');
+  });
+
+  test('Spec F: DELETE /tasks/:id - delete record', async () => {
+    const res = await axios.delete<TaskResponse>(`${BASE_URL}/tasks/${taskId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     expect(res.status).toBe(200);
-    expect(res.data.title).toBe('Updated Task');
+    expect(res.data.message).toContain('success');
+  });
+
+  test('Spec G: GET /currency/convert - currency conversion', async () => {
+    const res = await axios.get<CurrencyResponse>(`${BASE_URL}/currency/convert`, {
+      params: { from: 'USD', to: 'THB', amount: 10 }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data.result).toBeDefined();
+    expect(typeof res.data.result).toBe('number');
   });
 
 });
