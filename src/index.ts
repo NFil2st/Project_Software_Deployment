@@ -12,6 +12,7 @@ app.use(express.json());
 
 // --- Route mapping ตาม Tester Guide ---
 app.use('/auth', auth);
+
 app.use('/tasks', task);
 app.use('/currency', currency);
 
