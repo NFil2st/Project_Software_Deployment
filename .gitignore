@@ -1,53 +1,40 @@
-# ----------------------
-# Node modules
-# ----------------------
-node_modules/          # ห้าม commit dependencies ของ Node
+*
+!.gitignore
 
-# ----------------------
-# Build output
-# ----------------------
-dist/                  # ไฟล์ output จากการ compile TypeScript
-*.tsbuildinfo          # ไฟล์ cache ของ TypeScript
+# --- Allow .github directory structure ---
+!/.github/
+!/.github/workflows/
+!/.github/workflows/main.yml
 
-# ----------------------
-# Logs
-# ----------------------
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# --- Allow backend directory structure ---
+!/backend/
+!/backend/Dockerfile
+!/backend/package.json
+!/backend/src/
+# Allow content within these specific subdirectories
+!/backend/src/function/
+!/backend/src/function/**
+!/backend/src/controllers/
+!/backend/src/controllers/**
+!/backend/src/services/
+!/backend/src/services/**
+!/backend/src/routes/
+!/backend/src/routes/**
+!/backend/src/models/
+!/backend/src/models/**
+!/backend/src/__tests__/
+!/backend/src/__tests__/**
 
-# ----------------------
-# Environment variables
-# ----------------------
-.env                   # ไฟล์ environment variables
-.env.local
-.env.*.local
-
-# ----------------------
-# Jest snapshots & coverage
-# ----------------------
-**/__snapshots__/      # Snapshot ของ Jest
-coverage/              # Report การทดสอบ coverage
-
-# ----------------------
-# OS generated files
-# ----------------------
-.DS_Store              # macOS
-Thumbs.db              # Windows
-
-# ----------------------
-# Editor folders / IDE
-# ----------------------
-.vscode/               # VSCode settings
-.idea/                 # JetBrains IDE settings
-*.sublime-workspace    # Sublime Text
-*.sublime-project
-
-# ----------------------
-# GitHub Actions / CI
-# ----------------------
-# อย่า commit cache, logs หรือ artifacts ของ workflow
-.github/workflows/*.yml   # workflow YAML ถ้าต้องการแยก CI จาก repo จริง
-*.cache                   # cache ต่าง ๆ ของ CI/CD
-*.tmp                     # ไฟล์ชั่วคราว
-node_modules
+# --- Allow frontend directory structure ---
+!/frontend/
+!/frontend/package.json
+!/frontend/src/
+# Allow content within these specific subdirectories
+!/frontend/src/components/
+!/frontend/src/components/**
+!/frontend/src/pages/
+!/frontend/src/pages/**
+!/frontend/src/services/
+!/frontend/src/services/**
+!/frontend/src/__tests__/
+!/frontend/src/__tests__/**

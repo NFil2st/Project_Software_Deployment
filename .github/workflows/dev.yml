@@ -1,0 +1,27 @@
+name: 🐳 Dev Pipeline (Dockerized)
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  docker-run:
+    name: 🧪 Build & Test inside Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐳 Build Backend Image
+        working-directory: ./backend
+        run: docker build -t financial-tracker-backend:dev .
+
+      - name: 🧩 Run E2E Tests (if defined)
+        if: hashFiles('tests/package.json') != ''
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/tests/e2e:/app \
+            -w /app \
+            node:18 \
+            bash -c "npm install && npm test --if-present"
