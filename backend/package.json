@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "dev": "node src/routes/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "jest": "^30.2.0",
     "mongodb-memory-server": "^9.5.0",
+    "nodemon": "^3.1.10",
     "supertest": "^7.1.4"
   },
   "jest": {

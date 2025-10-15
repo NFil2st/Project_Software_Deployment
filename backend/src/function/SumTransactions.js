@@ -1,4 +1,3 @@
-
 function sumTransactions(transactions = []) {
   let totalIncome = 0;
   let totalExpense = 0;
