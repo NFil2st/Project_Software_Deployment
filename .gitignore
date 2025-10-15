@@ -1,4 +1,9 @@
+# This .gitignore file is designed to:
+# 1. Ignore all files and directories by default.
 *
+
+# 2. Un-ignore the specific files and directories for the project structure.
+# Note: Keep this .gitignore file itself!
 !.gitignore
 
 # --- Allow .github directory structure ---
@@ -8,6 +13,7 @@
 
 # --- Allow backend directory structure ---
 !/backend/
+!/backend/app.js
 !/backend/Dockerfile
 !/backend/package.json
 !/backend/src/
