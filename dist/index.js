@@ -5,16 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const auth_1 = __importDefault(require("./routes/auth"));
-const tasks_1 = __importDefault(require("./routes/tasks"));
-const currency_1 = __importDefault(require("./routes/currency"));
+// เพิ่มส่วนขยาย .js เพื่อช่วย tsc ให้ค้นหาไฟล์ใน 'dist' ได้ง่ายขึ้น
+const auth_js_1 = __importDefault(require("./routes/auth.js"));
+const tasks_js_1 = __importDefault(require("./routes/tasks.js"));
+const currency_js_1 = __importDefault(require("./routes/currency.js"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 // --- Route mapping ตาม Tester Guide ---
-app.use('/auth', auth_1.default);
-app.use('/tasks', tasks_1.default);
-app.use('/currency', currency_1.default);
+app.use('/auth', auth_js_1.default);
+app.use('/tasks', tasks_js_1.default);
+app.use('/currency', currency_js_1.default);
 // 🚨 ไม่ run listen() ถ้า NODE_ENV=test
 if (process.env.NODE_ENV !== 'test') {
     const PORT = process.env.PORT || 3000;

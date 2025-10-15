@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import auth from './routes/auth';
-import task from './routes/tasks';
-import currency from './routes/currency';
+// เพิ่มส่วนขยาย .js เพื่อช่วย tsc ให้ค้นหาไฟล์ใน 'dist' ได้ง่ายขึ้น
+import auth from './routes/auth.js'; 
+import task from './routes/tasks.js';
+import currency from './routes/currency.js';
 
 const app = express();
 app.use(cors());
