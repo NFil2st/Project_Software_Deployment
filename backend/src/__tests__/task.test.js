@@ -12,7 +12,7 @@ afterEach(async () => {
 // เราเพิ่ม afterAll และ closeDatabase เพื่อให้มั่นใจว่า Jest ปิดอย่างถูกต้อง
 // ถึงแม้ว่า setupFilesAfterEnv จะทำแล้ว แต่การมีไว้ในไฟล์ test ช่วยให้มั่นใจ
 afterAll(async () => {
-    await db.closeDatabase();
+  await mongoose.connection.close();
 });
 
 
