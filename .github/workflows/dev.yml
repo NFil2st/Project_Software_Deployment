@@ -1,0 +1,53 @@
+name: 🐳 Dev Pipeline (Dockerized)
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  docker-run:
+    name: 🧪 Build & Test inside Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout source code
+      - name: 🧩 Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Build Docker image for backend
+      - name: 🐳 Build Backend Image
+        working-directory: ./backend
+        run: docker build -t financial-tracker-backend:dev .
+
+      # 3️⃣ Build Docker image for frontend
+      - name: 🐳 Build Frontend Image
+        working-directory: ./frontend
+        run: docker build -t financial-tracker-frontend:dev .
+
+      # 4️⃣ Run Backend container and execute tests inside it
+      - name: 🧪 Run Backend Tests in Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/backend:/app \
+            -w /app \
+            financial-tracker-backend:dev \
+            npm test --if-present
+
+      # 5️⃣ Run Frontend container and execute tests inside it
+      - name: 🧪 Run Frontend Tests in Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/frontend:/app \
+            -w /app \
+            financial-tracker-frontend:dev \
+            npm test --if-present
+
+      # 6️⃣ (Optional) Run E2E test container if exists
+      - name: 🧩 Run E2E Tests (if defined)
+        if: hashFiles('tests/e2e/package.json') != ''
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/tests/e2e:/app \
+            -w /app \
+            node:18 \
+            bash -c "npm install && npm test --if-present"
