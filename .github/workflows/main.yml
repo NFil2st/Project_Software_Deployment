@@ -2,7 +2,7 @@ name: FinanceFlow CI/CD Pipeline
 
 on:
   push:
-    branches: [ dev, test, main ]
+    branches: [ prototype ]
 
 jobs:
   build-test-deploy:
