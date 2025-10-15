@@ -14,7 +14,6 @@ afterEach(async () => {
 // ถึงแม้ว่า setupFilesAfterEnv จะทำแล้ว แต่การมีไว้ในไฟล์ test ช่วยให้มั่นใจ
 afterAll(async () => {
   await mongoose.connection.close();
-  server.close();
 });
 
 
