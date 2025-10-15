@@ -9,6 +9,7 @@
 # 1. Ignore everything by default
 *
 
+
 # 2. Un-ignore the specific files and directories for the project structure.
 # Note: Keep this .gitignore file itself!
 !.gitignore
