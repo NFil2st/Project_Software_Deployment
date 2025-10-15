@@ -2,16 +2,15 @@
   "name": "project_software_deployment",
   "version": "1.0.0",
   "description": "**Goal:** Deliver reliable Automation (E2E) tests that run in CI for Specs A–F and verify deployed containers.",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "start:dev": "ts-node src/index.ts",
     "test": "jest --runInBand",
-    "test:e2e": "jest --runInBand --testPathPatterns=tests/e2e"
+    "test:e2e": "jest --testPathPatterns=tests/e2e"
   },
   "repository": {
     "type": "git",
@@ -24,19 +23,20 @@
     "url": "https://github.com/NFil2st/Project_Software_Deployment/issues"
   },
   "homepage": "https://github.com/NFil2st/Project_Software_Deployment#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "axios": "^1.12.2",
+    "body-parser": "^1.20.2"
+  },
   "devDependencies": {
     "@types/axios": "^0.9.36",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
-    "axios": "^1.12.2",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^5.1.0"
   }
 }
