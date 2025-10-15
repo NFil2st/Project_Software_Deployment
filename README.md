@@ -85,7 +85,7 @@ Our workflow is interconnected through an automated CI/CD pipeline, which is the
 | Func ID | Description      |
 | --------- | --------------- |
 | 1 | createTask(taskData) |
-| 2 | validateTaskInput(taskData) |
+| 2 | summaryTask(taskData) |
 | 3 | updateTask(id, taskData) |
 | 4 | deleteTask(id, taskData) |
 | 5 | convertCurrency(from, to, taskData) |
@@ -103,7 +103,7 @@ This table serves as the **"blueprint"** and **"shared agreement"** between Deve
 | Spec A  | Login (valid)       | Axios       | POST        | `/api/auth/login`       | Authenticate user with valid credentials, return JWT token.   | HTTP 200 + `token` (JWT)                                                       |
 | Spec B  | Login (invalid)     | Axios       | POST        | `/api/auth/login`       | Authenticate user with invalid credentials, return 401 error. | HTTP 401 + error message                                                       |
 | Spec C  | Create record       | Axios       | POST        | `/api/tasks`            | Create a new task record, return 201 with created JSON.       | POST `/api/tasks` → 201 + record JSON                                          |
-| Spec D  | Validation          | Axios       | POST        | `/api/tasks`            | Create task with missing fields, return 400 validation error. | POST missing fields → 400 + validation error                                   |
+| Spec D  | Summary          | Axios       | GET        | `/api/sum`            | Retrieve summary information or statistics of all tasks. | HTTP 200 + summary JSON (e.g., total tasks, completed count)                                   |
 | Spec E  | Update record       | Axios       | PUT         | `/api/tasks/:id`        | Update a task by ID, return 200 with updated JSON.            | PUT `/api/tasks/:id` → 200 + persisted change                                  |
 | Spec F  | Delete record       | Axios       | DELETE      | `/api/tasks/:id`        | Delete a task by ID, return 200 confirmation message.         | DELETE `/api/tasks/:id` → 200 + success message                                |
 | Spec G  | Currency conversion | Axios       | GET         | `/api/currency/convert` | Convert a given amount from one currency to another.          | GET `/api/currency/convert?from=USD&to=THB&amount=10` → 200 + converted result |
