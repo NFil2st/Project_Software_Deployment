@@ -1,4 +1,4 @@
-const { sumTransactions } = require('../function/sumTransactions');
+const { sumTransactions } = require('../function/SumTransactions');
 const { convertCurrency } = require('../function/convertCurrency');
 
 exports.sumTransactionsHandler = (req, res) => {
