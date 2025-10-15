@@ -82,8 +82,10 @@ describe('Specs A–G: E2E Tests', () => {
     });
     expect(res.status).toBe(200);
     expect(res.data.message).toContain('success');
+    taskId = ''; // reset taskId
   });
 
+  // Spec G: Currency conversion
   test('Spec G: GET /currency/convert - currency conversion', async () => {
     const res = await axios.get<CurrencyResponse>(`${BASE_URL}/currency/convert`, {
       params: { from: 'USD', to: 'THB', amount: 10 }
@@ -91,6 +93,19 @@ describe('Specs A–G: E2E Tests', () => {
     expect(res.status).toBe(200);
     expect(res.data.result).toBeDefined();
     expect(typeof res.data.result).toBe('number');
+  });
+
+  // --- Cleanup: ensure task is deleted if still exists ---
+  afterAll(async () => {
+    if (taskId) {
+      try {
+        await axios.delete(`${BASE_URL}/tasks/${taskId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } catch (err) {
+        console.warn('Cleanup: task may already be deleted');
+      }
+    }
   });
 
 });
