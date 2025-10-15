@@ -24,6 +24,8 @@
 !/backend/package.json
 !/backend/src/
 # Allow content within these specific subdirectories
+!/backend/src/function/
+!/backend/src/function/**
 !/backend/src/controllers/
 !/backend/src/controllers/**
 !/backend/src/services/
