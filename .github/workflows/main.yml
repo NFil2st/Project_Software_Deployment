@@ -1,0 +1,55 @@
+name: FinanceFlow CI/CD Pipeline
+
+on:
+  push:
+    branches: [ dev, test, main ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ ดึงโค้ดจาก repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ ติดตั้ง Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # 3️⃣ ติดตั้ง dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4️⃣ Build app
+      - name: Build project
+        run: npm run build --if-present
+
+      # 5️⃣ Run Unit Tests (ทุก branch ต้องผ่าน)
+      - name: Run Unit Tests
+        run: npm test
+
+      # 6️⃣ Run E2E Tests (เฉพาะ branch test และ main)
+      - name: Run E2E Tests
+        if: github.ref == 'refs/heads/test' || github.ref == 'refs/heads/main'
+        run: npm run test:e2e --if-present
+
+      # 7️⃣ Login เข้าสู่ Docker Hub (เฉพาะ main)
+      - name: Login to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 8️⃣ Build Docker image (เฉพาะ main)
+      - name: Build Docker image
+        if: github.ref == 'refs/heads/main'
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/financeflow:latest .
+
+      # 9️⃣ Push Docker image ไปที่ Docker Hub (เฉพาะ main)
+      - name: Push Docker image
+        if: github.ref == 'refs/heads/main'
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/financeflow:latest
