@@ -6,13 +6,14 @@ const db = require('./setup'); // Import setup เพื่อเข้าถึ
 // เนื่องจาก setupFilesAfterEnv เรียก db.connect() 
 // เราควรใช้ afterEach เพื่อเคลียร์ DB และตรวจสอบให้แน่ใจว่ามันเสร็จ
 afterEach(async () => {
-  await db.clearDatabase();
+  await mongoose.connection.close();
 });
 
 // เราเพิ่ม afterAll และ closeDatabase เพื่อให้มั่นใจว่า Jest ปิดอย่างถูกต้อง
 // ถึงแม้ว่า setupFilesAfterEnv จะทำแล้ว แต่การมีไว้ในไฟล์ test ช่วยให้มั่นใจ
 afterAll(async () => {
   await mongoose.connection.close();
+  server.close();
 });
 
 
