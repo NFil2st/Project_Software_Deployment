@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../../app'); 
 const Task = require('../models/taskModel'); 
 const db = require('./setup'); // Import setup เพื่อเข้าถึงฟังก์ชัน clearDatabase
+const mongoose = require('mongoose');
 
 // เนื่องจาก setupFilesAfterEnv เรียก db.connect() 
 // เราควรใช้ afterEach เพื่อเคลียร์ DB และตรวจสอบให้แน่ใจว่ามันเสร็จ
