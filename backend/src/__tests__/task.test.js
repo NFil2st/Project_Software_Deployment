@@ -3,11 +3,6 @@ const app = require('../../app');
 const Task = require('../models/taskModel'); 
 const db = require('./setup'); // Import setup เพื่อเข้าถึงฟังก์ชัน clearDatabase
 const mongoose = require('mongoose');
-let server;
-
-beforeAll(() => {
-  server = app.listen(3000); // assign server ที่นี่
-});
 
 // เนื่องจาก setupFilesAfterEnv เรียก db.connect() 
 // เราควรใช้ afterEach เพื่อเคลียร์ DB และตรวจสอบให้แน่ใจว่ามันเสร็จ
