@@ -13,7 +13,7 @@
 
 Tester is responsible for:
 
-* Implementing E2E automation for specs A–F.
+* Implementing E2E automation for specs A–G.
 * Adding tests to CI (run on `test`).
 * Validating CI artifacts, logs, and deployed service.
 * Opening issues and coordinating fixes.
@@ -116,7 +116,7 @@ name: E2E Tests (Axios Client)
 
 on:
   push:
-    branches: [ test ]
+    branches: [ dev ]  # or test
 
 jobs:
   e2e:
@@ -193,27 +193,8 @@ Once `main` pipeline builds & pushes Docker image and deploys:
 
 ---
 
-## 8. Best practices & checklist (quick)
 
-* [ ] Tests cover both success and failure scenarios (positive & negative assertions).
-* [ ] Tests are deterministic: reset data or use isolated test DB per run.
-* [ ] Each test file names map to Spec IDs (e.g., `spec-A-auth.test.ts`).
-* [ ] CI stores test logs and coverage artifacts.
-* [ ] Tester documents failing test in an Issue with clear reproduction steps.
-
----
-
-## 9. Example filenames to commit (convention)
-
-```
-tests/e2e/spec-A-B-user-create-get.e2e.test.ts
-tests/e2e/spec-C-D-user-update-delete.e2e.test.ts
-tests/e2e/spec-E-F-validation.e2e.test.ts
-```
-
----
-
-## 10. Quick troubleshooting tips (Tester → Dev handoff)
+## 8. Quick troubleshooting tips (Tester → Dev handoff)
 
 * If token invalid: verify `JWT_SECRET` in CI and `.env.test`.
 * If test times out: increase Jest timeout temporarily and profile endpoint latency.
@@ -223,6 +204,6 @@ tests/e2e/spec-E-F-validation.e2e.test.ts
 
 ### ✅ Final goal for Tester:
 
-All Specs A–F pass in the `test` branch CI; test artifacts uploaded; no open blocking QA issues before PR to `main`.
+All Specs A–G pass in the `test` branch CI; test artifacts uploaded; no open blocking QA issues before PR to `main`.
 
 ---
