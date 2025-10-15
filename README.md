@@ -68,14 +68,15 @@ Add scripts in `package.json`:
 
 ## 3. Spec → Test mapping (must be automated)
 
-| Spec ID | Test Suite      | HTTP Clien | HTTP Method | API Endpoint      | Description        | Expected Outcome (CI) |
-| --------- | --------------- | ---------- | ------------| -----------        | ----------------- | ------------------------------------------------------------- |
-|  Spec A | Login (valid)   | Axios | POST        | `/api/auth/login` | Authenticate user with valid credentials, return JWT token.   | HTTP 200 + `token` (JWT)                      |
-|  Spec B | Login (invalid) | Axios | POST        | `/api/auth/login` | Authenticate user with invalid credentials, return 401 error. | HTTP 401 + error message                      |
-|  Spec C | Auth guard      | Axios | GET         | `/api/protected`  | Access protected route, 401 if no token, 200 if token valid.  | 401 without token, 200 with token             |
-|  Spec D | Create record   | Axios | POST        | `/api/tasks`      | Create a new task record, return 201 with created JSON.       | POST `/api/tasks` → 201 + record JSON         |
-|  Spec E | Validation      | Axios | POST        | `/api/tasks`      | Create task with missing fields, return 400 validation error. | POST missing fields → 400 + validation error  |
-|  Spec F | Update record   | Axios | PUT         | `/api/tasks/:id`  | Update a task by ID, return 200 with updated JSON.            | PUT `/api/tasks/:id` → 200 + persisted change |
+| Spec ID | Test Suite          | HTTP Client | HTTP Method | API Endpoint            | Description                                                   | Expected Outcome (CI)                                                          |
+| ------- | ------------------- | ----------- | ----------- | ----------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Spec A  | Login (valid)       | Axios       | POST        | `/api/auth/login`       | Authenticate user with valid credentials, return JWT token.   | HTTP 200 + `token` (JWT)                                                       |
+| Spec B  | Login (invalid)     | Axios       | POST        | `/api/auth/login`       | Authenticate user with invalid credentials, return 401 error. | HTTP 401 + error message                                                       |
+| Spec C  | Create record       | Axios       | POST        | `/api/tasks`            | Create a new task record, return 201 with created JSON.       | POST `/api/tasks` → 201 + record JSON                                          |
+| Spec D  | Validation          | Axios       | POST        | `/api/tasks`            | Create task with missing fields, return 400 validation error. | POST missing fields → 400 + validation error                                   |
+| Spec E  | Update record       | Axios       | PUT         | `/api/tasks/:id`        | Update a task by ID, return 200 with updated JSON.            | PUT `/api/tasks/:id` → 200 + persisted change                                  |
+| Spec F  | Delete record       | Axios       | DELETE      | `/api/tasks/:id`        | Delete a task by ID, return 200 confirmation message.         | DELETE `/api/tasks/:id` → 200 + success message                                |
+| Spec G  | Currency conversion | Axios       | GET         | `/api/currency/convert` | Convert a given amount from one currency to another.          | GET `/api/currency/convert?from=USD&to=THB&amount=10` → 200 + converted result |
 
 
 
