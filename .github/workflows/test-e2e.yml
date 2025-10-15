@@ -23,14 +23,22 @@ jobs:
       # รัน server แบบ background และเก็บ PID
       - name: Start Express Server
         run: |
-          npm start &
+          RUN_E2E=true npm start &
           echo $! > server.pid
         env:
           PORT: 3000
 
-      # รอ server พร้อม
+      # รอ server พร้อมด้วย health check
       - name: Wait for server to be ready
-        run: sleep 10
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:3000/health >/dev/null; then
+              echo "Server is ready!"
+              break
+            fi
+            echo "Waiting for server..."
+            sleep 1
+          done
 
       - name: Run E2E Tests
         run: npm run test:e2e
