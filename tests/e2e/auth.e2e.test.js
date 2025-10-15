@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const BASE_URL = 'http://localhost:3000/api';
+const BASE_URL = 'http://localhost:3000';
 
 const validUser = { email: 'user@test.com', password: 'p1' };
 const invalidUser = { email: 'user@test.com', password: 'wrong' };
