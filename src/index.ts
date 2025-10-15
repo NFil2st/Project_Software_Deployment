@@ -1,17 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth';
-import taskRoutes from './routes/tasks';
-import currencyRoutes from './routes/currency';
+import auth from './routes/auth';
+import task from './routes/tasks';
+import currency from './routes/currency';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // --- Route mapping ตาม Tester Guide ---
-app.use('/auth', authRoutes);
-app.use('/tasks', taskRoutes);
-app.use('/currency', currencyRoutes);
+app.use('/auth', auth);
+app.use('/tasks', task);
+app.use('/currency', currency);
 
 // 🚨 ไม่ run listen() ถ้า NODE_ENV=test
 if (process.env.NODE_ENV !== 'test') {
