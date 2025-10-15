@@ -23,7 +23,7 @@ jobs:
       # รัน server แบบ background และเก็บ PID
       - name: Start Express Server
         run: |
-          RUN_E2E=true npm start &
+          RUN_E2E=true npx ts-node src/index.ts &
           echo $! > server.pid
         env:
           PORT: 3000
