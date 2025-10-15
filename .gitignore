@@ -1,1 +1,38 @@
 *
+!.gitignore
+
+# --- Allow .github directory structure ---
+!/.github/
+!/.github/workflows/
+!/.github/workflows/main.yml
+
+# --- Allow backend directory structure ---
+!/backend/
+!/backend/Dockerfile
+!/backend/package.json
+!/backend/src/
+# Allow content within these specific subdirectories
+!/backend/src/controllers/
+!/backend/src/controllers/**
+!/backend/src/services/
+!/backend/src/services/**
+!/backend/src/routes/
+!/backend/src/routes/**
+!/backend/src/models/
+!/backend/src/models/**
+!/backend/src/__tests__/
+!/backend/src/__tests__/**
+
+# --- Allow frontend directory structure ---
+!/frontend/
+!/frontend/package.json
+!/frontend/src/
+# Allow content within these specific subdirectories
+!/frontend/src/components/
+!/frontend/src/components/**
+!/frontend/src/pages/
+!/frontend/src/pages/**
+!/frontend/src/services/
+!/frontend/src/services/**
+!/frontend/src/__tests__/
+!/frontend/src/__tests__/**
