@@ -50,3 +50,4 @@ Thumbs.db              # Windows
 .github/workflows/*.yml   # workflow YAML ถ้าต้องการแยก CI จาก repo จริง
 *.cache                   # cache ต่าง ๆ ของ CI/CD
 *.tmp                     # ไฟล์ชั่วคราว
+node_modules
