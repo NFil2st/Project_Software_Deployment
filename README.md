@@ -86,16 +86,16 @@ Our workflow is interconnected through an automated CI/CD pipeline, which is the
 
 This table serves as the **"blueprint"** and **"shared agreement"** between Developers and Testers. All development and testing must adhere to these specifications.
 
-| Feature Module | Specification (Spec ID) | Description |
-| :--- | :--- | :--- |
-| **Authentication** | **Spec A** | A user can successfully log in with valid credentials. |
-| | **Spec B** | The system displays an error message for an invalid password or username. |
-| | **Spec C** | The system restricts access to internal pages without proper authentication (Authorization Check). |
-| **CRUD** (Finance Record) | **Spec D** | A user can successfully create a new record with valid data. |
-| | **Spec E** | The API rejects data when required fields (e.g., Amount, Description) are missing (Validation). |
-| | **Spec F** | A user can successfully update a record and verify that the change is persisted. |
+## 3. Spec → Test mapping (must be automated)
 
-**How to Use This Table:**
+| Spec ID | Test Suite      | HTTP Clien | HTTP Method | API Endpoint      | Description        | Expected Outcome (CI) |
+| --------- | --------------- | ---------- | ------------| -----------        | ----------------- | ------------------------------------------------------------- |
+|  Spec A | Login (valid)   | Axios | POST        | `/api/auth/login` | Authenticate user with valid credentials, return JWT token.   | HTTP 200 + `token` (JWT)                      |
+|  Spec B | Login (invalid) | Axios | POST        | `/api/auth/login` | Authenticate user with invalid credentials, return 401 error. | HTTP 401 + error message                      |
+|  Spec C | Auth guard      | Axios | GET         | `/api/protected`  | Access protected route, 401 if no token, 200 if token valid.  | 401 without token, 200 with token             |
+|  Spec D | Create record   | Axios | POST        | `/api/tasks`      | Create a new task record, return 201 with created JSON.       | POST `/api/tasks` → 201 + record JSON         |
+|  Spec E | Validation      | Axios | POST        | `/api/tasks`      | Create task with missing fields, return 400 validation error. | POST missing fields → 400 + validation error  |
+|  Spec F | Update record   | Axios | PUT         | `/api/tasks/:id`  | Update a task by ID, return 200 with updated JSON.            | PUT `/api/tasks/:id` → 200 + persisted change |
 
   * **For Developers:** Your goal is to implement features that meet the description for each Spec ID. Your Unit Tests should cover the logic for these requirements.
   * **For Testers:** Your Automation (E2E) scripts must be created to verify the functionality of each Spec ID. Test case names should correspond to the Spec ID (e.g., `test('Spec A: Successful Login...')`) for easy traceability.
