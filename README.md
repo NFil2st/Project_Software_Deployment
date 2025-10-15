@@ -1,101 +1,70 @@
-# 💰 FinanceFlow: Financial Task Manager
+# 🧪 Tester Guide — Integration with Dev Step-by-Step
 
-## 🚀 Project Overview
 
-FinanceFlow is a simple, secure web application designed for users to track and manage their financial tasks and small-scale transactions (e.g., "Record Monthly Expense," "Check Budget Status").
+## 🧭 Overview — Tester role in the repo flow
 
-The core objective of this project is to implement a robust **Continuous Integration/Continuous Deployment (CI/CD)** pipeline, ensuring automated testing and deployment for every code change, which is a key requirement of this group project.
+**Goal:** Deliver reliable Automation (E2E) tests that run in CI for Specs A–F and verify deployed containers.
 
------
+**Working branches:**
 
-## 📁 Project Structure & File Layout
+* `dev` — dev work (Dev runs unit tests here)
+* `test` — QA/E2E validation (Tester’s automation runs here)
+* `main` — production deploy (full pipeline + Docker push)
 
-To ensure the team works in alignment, the project will follow this file structure:
+Tester is responsible for:
 
-```
-financeflow/
-│
-├── .github/
-│   └── workflows/
-│       └── main.yml        # Main CI/CD Pipeline for the project
-│
-├── backend/                # Folder for the Backend (API)
-│   ├── src/
-│   │   ├── function/    # function
-│   │   ├── controllers/    # Request/Response handling logic
-│   │   ├── services/       # Core business logic
-│   │   ├── routes/         # API route definitions
-│   │   ├── models/         # Data schemas
-│   │   └── __tests__/      # Unit Tests for the Backend
-│   │
-│   ├── Dockerfile          # File for building the Backend's Docker Image
-│   └── package.json
-│
-├── frontend/               # Folder for the Frontend (UI)
-│   ├── src/
-│   │   ├── components/     # Reusable UI Components
-│   │   ├── pages/          # Web pages (Login, Dashboard)
-│   │   ├── services/       # Code for API calls
-│   │   └── __tests__/      # Unit Tests for the Frontend
-│   │
-│   └── package.json
-│
-└── tests/                  # Folder for Automation Tests (E2E)
-    ├── e2e/
-    │   ├── auth.spec.js    # Test Cases for Spec A, B, C
-    │   └── crud.spec.js    # Test Cases for Spec D, E, F
-    │
-    └── fixtures/
-        └── user-data.json  # Mock data for testing purposes
+* Implementing E2E automation for specs A–F.
+* Adding tests to CI (run on `test`).
+* Validating CI artifacts, logs, and deployed service.
+* Opening issues and coordinating fixes.
+
+---
+
+## 1. Test repository structure (recommended)
+
+Place test files and fixtures in the repository so CI can run them easily:
 
 ```
+/tests
+  /e2e            # tester-owned end-to-end tests (Axios/HTTP Client)
+  /fixtures       # JSON fixtures (sample users)
+jest.config.ts    # ts-jest config for TypeScript
+package.json      # includes test scripts
+```
 
------
+---
 
-## ✅ Project Requirements Checklist
+## 2. Tools & Setup (what to use)
 
-All work must adhere to the following mandatory project requirements:
+| Area              | Recommended Tools                                                           |
+| ----------------- | --------------------------------------------------------------------------- |
+| API E2E           | **Jest + Axios/HTTP Client + ts-jest**                                      |
+| CI Runner         | **GitHub Actions** (runs on `test` branch)                                  |
 
-1.  **Authentication:** The system **must** include at least one Login screen (either Front-end UI or API-based authentication).
-2.  **Automated Deployment:** Deployment **must** be automated via a CI/CD pipeline connected to this remote repository.
-3.  **Containerization:** The final build **must** successfully deploy a Docker image to a Container Repository (e.g., Docker Hub).
-4.  **Unit Testing:** The project **must** contain a number of Unit Tests equal to or greater than the number of group members.
-5.  **Quality Check:** All team members share joint responsibility for fixing issues arising from the Build, Test, and Deploy phases.
 
------
+Add these devDependencies (example):
 
-## 🔄 Team Workflow: From Code to Deployment
+```json
+"devDependencies": {
+    "jest": "latest",
+    "axios": "latest", 
+    "ts-jest": "latest",
+    "@types/jest": "latest",
+    "@types/axios": "latest"
+}
+```
 
-Our workflow is interconnected through an automated CI/CD pipeline, which is the core mechanism that enables seamless collaboration between Developers and Testers.
+Add scripts in `package.json`:
 
-| Stage | Action | Triggered By | Responsibility |
-| :--- | :--- | :--- | :--- |
-| **1. Build & Lint** | Install dependencies, check code style, and build the application. | Developer Push | Developer |
-| **2. Test: Unit** | Run all required Unit Tests. **Must Pass**. | Developer Push | Developer |
-| **3. Test: Automation (E2E)** | Run comprehensive automated Test Cases. **Must Pass**. | Stage 2 Success | Tester |
-| **4. Containerize** | Build the official Docker Image from the `Dockerfile`. | Stage 3 Success | Developer/PM |
-| **5. Deploy** | Push the Docker Image to the Container Registry. | Stage 4 Success | PM |
+```json
+"scripts": {
+  "test": "jest --runInBand",
+  "test:e2e": "jest --testPathPattern=tests/e2e",
+  "build": "tsc" 
+}
+```
 
-**Collaboration Model:**
-
-  * **Developer:** Responsible for developing features and writing Unit Tests that align with the **Test Spec**. The pipeline starts automatically as soon as code is pushed.
-  * **Tester:** Responsible for creating Automation (E2E) Tests according to the **Test Spec** to validate the system's overall functionality in Stage 3. If this stage fails, the Developer must resolve the issue.
-
------
-## Function
-| Func ID | Description      |
-| --------- | --------------- |
-| 1 | createTask(taskData) |
-| 2 | summaryTask(taskData) |
-| 3 | updateTask(id, taskData) |
-| 4 | deleteTask(id, taskData) |
-| 5 | convertCurrency(from, to, taskData) |
-
------
-
-## 📋 General Test Specification (Test Spec)
-
-This table serves as the **"blueprint"** and **"shared agreement"** between Developers and Testers. All development and testing must adhere to these specifications.
+---
 
 ## 3. Spec → Test mapping (must be automated)
 
@@ -110,5 +79,150 @@ This table serves as the **"blueprint"** and **"shared agreement"** between Deve
 | Spec G  | Currency conversion | Axios       | GET         | `/api/currency/convert` | Convert a given amount from one currency to another.          | GET `/api/currency/convert?from=USD&to=THB&amount=10` → 200 + converted result |
 
 
-  * **For Developers:** Your goal is to implement features that meet the description for each Spec ID. Your Unit Tests should cover the logic for these requirements.
-  * **For Testers:** Your Automation (E2E) scripts must be created to verify the functionality of each Spec ID. Test case names should correspond to the Spec ID (e.g., `test('Spec A: Successful Login...')`) for easy traceability.
+
+---
+
+## 4. Step-by-step — Write & run tests locally (Tester)
+
+Follow this checklist for each Spec:
+
+1. **Get the Test Spec from PM**
+
+   * Confirm exact request/response shapes (API_CONTRACT.md).
+   * Confirm auth flow (JWT secret, demo user credentials).
+
+2. **Create fixtures**
+
+   * `tests/fixtures/user.json` (demo username/password)
+   * `tests/fixtures/task.json` (valid task, invalid payload)
+
+3. **Write E2E tests (example path: `tests/e2e/auth.e2e.test.ts`)**
+
+4. **Add flow tests for CRUD (single E2E test covers D→E→F)**
+
+5. **Run tests locally**
+
+   * `npm ci` then `npm run test:e2e`
+   * Fix failures or open issue with details: failing test name, logs, request/response.
+
+---
+
+## 5. Step-by-step — Integrate tests into CI (GitHub Actions)
+
+Create minimal workflow `.github/workflows/test-e2e.yml` triggered on pushes to `test`:
+
+```yaml
+name: E2E Tests (Axios Client)
+
+on:
+  push:
+    branches: [ test ]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: '20' # แนะนำให้อัพเดทเป็น Node 20 หากโค้ดรองรับ
+      
+      - name: Install dependencies
+        run: npm ci
+        
+      # 1. Build TypeScript 
+      - name: Compile TypeScript
+        run: npm run build
+        
+      # 2. Start Express Server ใน Background (รัน node dist/index.js)
+      - name: Start Express Server
+        run: npm start & 
+        env:
+          # หากต้องการใช้ Test DB URI ควรตั้งค่าใน Secrets แล้วเรียกใช้ที่นี่
+          PORT: 3000
+        
+      # Wait 10 วินาทีให้ Server และ DB Connection (Mongoose) พร้อม
+      - name: Wait for server to be ready
+        run: sleep 10s 
+
+      # 3. รัน E2E Tests (ใช้ Axios/HTTP Client)
+      - name: Run E2E Tests
+        run: npm run test:e2e
+        # ไม่จำเป็นต้องตั้ง NODE_ENV=test เนื่องจาก server รันแบบ full stack 
+      
+      # 4. อัปโหลด logs/artifacts
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-logs
+          path: ./test-results || ./coverage || ./logs
+```
+
+**CI Requirements:**
+
+* `src/index` must `export default app` and not `listen()` when `NODE_ENV === 'test'`.
+* If JWT secret required, set `JWT_SECRET` via repo **Secrets**.
+* If DB required, use `services` in workflow (or test DB connection string in secrets).
+
+---
+
+## 6. Interpreting CI results (what to verify)
+
+When CI runs, confirm:
+
+* **Exit code 0** (no failing tests).
+* **Artifacts uploaded** (log file or coverage).
+* **No flakiness**: repeated runs should be consistent.
+* **If failure occurs**, collect:
+
+  * Action run URL
+  * Test name(s) and stack trace
+  * Exact request payload and response (sanitized)
+  * Assign issue to developer with reproduction steps
+
+---
+
+## 7. Post-deployment verification (after `main` pipeline deploy)
+
+Once `main` pipeline builds & pushes Docker image and deploys:
+
+1. **Sanity check**: `curl` root or health endpoint (e.g., `GET /health` -> 200).
+2. **Smoke tests**: run a quick authorized GET `/api/tasks` and POST/DELETE sample to confirm live behavior.
+3. **Record results**: If mismatch from staging / test expectations, open a blocker issue.
+
+---
+
+## 8. Best practices & checklist (quick)
+
+* [ ] Tests cover both success and failure scenarios (positive & negative assertions).
+* [ ] Tests are deterministic: reset data or use isolated test DB per run.
+* [ ] Each test file names map to Spec IDs (e.g., `spec-A-auth.test.ts`).
+* [ ] CI stores test logs and coverage artifacts.
+* [ ] Tester documents failing test in an Issue with clear reproduction steps.
+
+---
+
+## 9. Example filenames to commit (convention)
+
+```
+tests/e2e/spec-A-B-user-create-get.e2e.test.ts
+tests/e2e/spec-C-D-user-update-delete.e2e.test.ts
+tests/e2e/spec-E-F-validation.e2e.test.ts
+```
+
+---
+
+## 10. Quick troubleshooting tips (Tester → Dev handoff)
+
+* If token invalid: verify `JWT_SECRET` in CI and `.env.test`.
+* If test times out: increase Jest timeout temporarily and profile endpoint latency.
+* If DB state leaking: ensure model resets in `beforeEach` or use transactions.
+
+---
+
+### ✅ Final goal for Tester:
+
+All Specs A–F pass in the `test` branch CI; test artifacts uploaded; no open blocking QA issues before PR to `main`.
+
+---
