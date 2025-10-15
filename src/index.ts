@@ -1,18 +1,17 @@
 import express from 'express';
-import cors from 'cors';
-import userRoutes from './routes/user';
+import authRouter from './routes/authRouter';
+import tasksRouter from './routes/tasksRouter';
+import currencyRouter from './routes/currencyRouter';
+
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', userRoutes);
+app.use('/api/auth', authRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/currency', currencyRouter);
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-// 🚨 อย่ารัน listen() ถ้าเป็น test mode
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-
-export default app;
+export default app; // สำหรับ E2E test

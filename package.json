@@ -8,9 +8,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
+    "start:dev": "ts-node src/index.ts",
     "test": "jest --runInBand",
-    "test:e2e": "jest --testPathPatterns=tests/e2e"
+    "test:e2e": "jest --runInBand --testPathPatterns=tests/e2e"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "axios": "^1.12.2",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
