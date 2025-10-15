@@ -35,7 +35,7 @@ financial-tracker/
 │
 ├── backend/                # Folder for the Backend (API)
 │   ├── src/
-│   │   ├── function/    # function
+│   │   ├── function/       # function
 │   │   ├── controllers/    # Request/Response handling logic
 │   │   ├── services/       # Core business logic
 │   │   ├── routes/         # API route definitions
