@@ -1,14 +1,17 @@
 const { createTask } = require('../services/taskService');
 
-async function createTaskFunction(taskData) {
+exports.createTaskHandler = async (req, res) => {
   try {
+    const taskData = req.body;
     const newTask = await createTask(taskData);
-    console.log('✅ Task created successfully:', newTask.title);
-    return newTask;
+    res.status(201).json({
+      message: 'Task created successfully',
+      data: newTask,
+    });
   } catch (error) {
-    console.error('❌ Failed to create task:', error.message);
-    throw error;
+    res.status(500).json({
+      message: 'Error creating task',
+      error: error.message,
+    });
   }
-}
-
-module.exports = { createTaskFunction };
+};

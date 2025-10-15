@@ -40,5 +40,4 @@ function convertCurrency(from, to, taskData) {
     return convertedTask;
 }
 
-module.exports = convertCurrency;
-convertCurrency.js
+module.exports = { convertCurrency };
