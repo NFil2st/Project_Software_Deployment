@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const taskRoutes = require('./taskRoutes');
+const authRoutes = require('./authRoutes');
 
-// รวม route ย่อยทั้งหมดไว้ที่นี่
+// Include all sub-routes
+router.use('/auth', authRoutes);
 router.use('/', taskRoutes);
 
 module.exports = router;
