@@ -17,6 +17,14 @@ jobs:
         working-directory: ./backend
         run: docker build -t financial-tracker-backend:dev .
 
+      - name: 🧪 Run Unit and Integration Tests
+        working-directory: ./backend
+        run: |
+          echo "Running npm test inside the Docker Image..."
+          docker run --rm \
+            financial-tracker-backend:dev \
+            npm test
+
       - name: 🧩 Run E2E Tests (if defined)
         if: hashFiles('tests/package.json') != ''
         run: |

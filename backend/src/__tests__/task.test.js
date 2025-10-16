@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../app');
+const { app, server } = require('../../app');
 const Task = require('../models/taskModel');
 const db = require('./setup');
 const mongoose = require('mongoose');
@@ -14,6 +14,9 @@ afterEach(async () => {
 
 afterAll(async () => {
   await db.closeDatabase();
+  await mongoose.disconnect();
+  await new Promise(resolve => setTimeout(resolve, 100));
+  server.close();
 });
 
 describe('Integration Tests: Task + Transactions + Currency', () => {
@@ -65,7 +68,7 @@ describe('Integration Tests: Task + Transactions + Currency', () => {
     it('should delete a task successfully', async () => {
       const taskRes = await request(app)
         .post('/api/tasks')
-        .send({ title: 'Task to delete', description: 'desc', type: 'todo' })
+        .send({ title: 'Task to delete', description: 'desc', amount: 50000, type: 'income' })
         .expect(201);
 
       const id = taskRes.body.data._id;
