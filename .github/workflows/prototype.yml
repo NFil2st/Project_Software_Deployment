@@ -1,4 +1,4 @@
-name: 🐳 Dev Pipeline (Dockerized)
+name: 🐳 Prototype Pipeline (Dockerized)
 
 on:
   push:
