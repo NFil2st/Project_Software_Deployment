@@ -14,8 +14,5 @@ mongoose.connect('mongodb+srv://test:1234@test.nxtathd.mongodb.net/?retryWrites=
 .then(() => console.log('✅ MongoDB connected successfully'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
 
-module.exports = app;
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+const server = app.listen(3000, () => console.log("Server is running on port 3000"));
+module.exports = { app, server };

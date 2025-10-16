@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../app');
+const { app, server } = require('../../app');
 const Task = require('../models/taskModel');
 const db = require('./setup');
 const mongoose = require('mongoose');
@@ -15,7 +15,8 @@ afterEach(async () => {
 afterAll(async () => {
   await db.closeDatabase();
   await mongoose.disconnect();
-    await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise(resolve => setTimeout(resolve, 100));
+  server.close();
 });
 
 describe('Integration Tests: Task + Transactions + Currency', () => {
