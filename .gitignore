@@ -16,6 +16,7 @@
 !/backend/app.js
 !/backend/Dockerfile
 !/backend/package.json
+!/backend/package-lock.json
 !/backend/src/
 # Allow content within these specific subdirectories
 !/backend/src/function/
@@ -34,6 +35,7 @@
 # --- Allow frontend directory structure ---
 !/frontend/
 !/frontend/package.json
+!/frontend/package-lock.json
 !/frontend/src/
 # Allow content within these specific subdirectories
 !/frontend/src/components/
