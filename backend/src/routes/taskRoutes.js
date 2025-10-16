@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { createTaskHandler, getTasksHandler, updateTaskHandler, deleteTaskHandler } = require('../controllers/taskController');
+const { createTaskHandler, getTasksHandler, updateTaskHandler } = require('../controllers/taskController');
 const { 
     sumTransactionsHandler, 
     convertCurrencyHandler 
 } = require('../controllers/transactionController');
+const { deleteTaskHandler } = require('../controllers/deleteController');
+
+router.get('/tasks', getTasksHandler);
 
 // --- Spec C	Create record ---
 router.post('/tasks', createTaskHandler);
@@ -12,11 +15,13 @@ router.post('/tasks', createTaskHandler);
 // --- Spec D	Summary ---
 router.post('/sum', sumTransactionsHandler); 
 
+// --- Spec E	Update ---
+router.put('/tasks/:id', updateTaskHandler);
+
+// --- Spec F	Delete ---
+router.delete('/tasks/:id', deleteTaskHandler);
+
 // --- Spec G	Currency conversion ---
 router.post('/currency/convert', convertCurrencyHandler);
-
-router.get('/', getTasksHandler);
-router.put('/:id', updateTaskHandler);
-router.delete('/:id', deleteTaskHandler);
 
 module.exports = router;
