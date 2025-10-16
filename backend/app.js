@@ -1,8 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./src/routes');
+const cors = require('cors');
 
 const app = express();
+
+
+//ให้ Express ใช้งาน CORS ได้
+app.use(cors({
+  origin: 'http://localhost:5500', 
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/api', routes);
 
