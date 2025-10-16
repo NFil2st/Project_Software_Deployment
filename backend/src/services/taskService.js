@@ -5,3 +5,15 @@ exports.createTask = async (taskData) => {
   await newTask.save();
   return newTask;
 };
+
+exports.getAllTasks = async () => {
+  return await Task.find();
+};
+
+exports.updateTask = async (taskId, updateData) => {
+  return await Task.findByIdAndUpdate(taskId, updateData, { new: true });
+};
+
+exports.deleteTask = async (taskId) => {
+  return await Task.findByIdAndDelete(taskId);
+};

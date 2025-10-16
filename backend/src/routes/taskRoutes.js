@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createTaskHandler } = require('../controllers/taskController');
+const { createTaskHandler, getTasksHandler, updateTaskHandler, deleteTaskHandler } = require('../controllers/taskController');
 const { 
     sumTransactionsHandler, 
     convertCurrencyHandler 
@@ -14,5 +14,9 @@ router.post('/sum', sumTransactionsHandler);
 
 // --- Spec G	Currency conversion ---
 router.post('/currency/convert', convertCurrencyHandler);
+
+router.get('/', getTasksHandler);
+router.put('/:id', updateTaskHandler);
+router.delete('/:id', deleteTaskHandler);
 
 module.exports = router;
