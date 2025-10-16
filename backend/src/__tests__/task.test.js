@@ -14,6 +14,8 @@ afterEach(async () => {
 
 afterAll(async () => {
   await db.closeDatabase();
+  await mongoose.disconnect();
+    await new Promise(resolve => setTimeout(resolve, 100));
 });
 
 describe('Integration Tests: Task + Transactions + Currency', () => {
@@ -65,7 +67,7 @@ describe('Integration Tests: Task + Transactions + Currency', () => {
     it('should delete a task successfully', async () => {
       const taskRes = await request(app)
         .post('/api/tasks')
-        .send({ title: 'Task to delete', description: 'desc', type: 'todo' })
+        .send({ title: 'Task to delete', description: 'desc', amount: 50000, type: 'income' })
         .expect(201);
 
       const id = taskRes.body.data._id;

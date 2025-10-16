@@ -5,7 +5,7 @@ const {
     sumTransactionsHandler, 
     convertCurrencyHandler 
 } = require('../controllers/transactionController');
-const { deleteTaskHandler } = require('../controllers/deleteController');
+const { deleteTaskController } = require('../controllers/deleteController');
 
 router.get('/tasks', getTasksHandler);
 
@@ -19,7 +19,7 @@ router.post('/sum', sumTransactionsHandler);
 router.put('/tasks/:id', updateTaskHandler);
 
 // --- Spec F	Delete ---
-router.delete('/tasks/:id', deleteTaskHandler);
+router.delete('/tasks/:id', deleteTaskController);
 
 // --- Spec G	Currency conversion ---
 router.post('/currency/convert', convertCurrencyHandler);
