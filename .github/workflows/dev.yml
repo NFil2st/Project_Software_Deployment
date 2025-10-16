@@ -15,7 +15,7 @@ jobs:
 
       - name: 📦 Install backend dependencies
         working-directory: ./backend
-        run: npm ci
+        run: npm install
 
       - name: 🐳 Build Backend Image
         working-directory: ./backend
