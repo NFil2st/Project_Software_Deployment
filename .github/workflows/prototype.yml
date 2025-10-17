@@ -21,18 +21,6 @@ jobs:
         working-directory: ./backend
         run: docker build -t financial-tracker-backend:dev .
 
-      - name: 📦 Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
-
-      - name: 🛠️ Build Frontend App
-        working-directory: ./frontend
-        run: npm run build
-
-      - name: 🐳 Build Frontend Image
-        working-directory: ./frontend
-        run: docker build -t financial-tracker-frontend:dev .
-
       - name: 🧪 Run Unit and Integration Tests
         working-directory: ./backend
         run: |
