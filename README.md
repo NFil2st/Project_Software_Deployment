@@ -1,27 +1,41 @@
-# 💰 FinanceFlow: Financial Task Manager
+# 🧑‍💻 Developer Guide: FinanceFlow
 
-## 🚀 Project Overview
+This guide outlines the technical development requirements, focusing on feature delivery, Unit Testing, and CI/CD integration.
 
-FinanceFlow is a simple, secure web application designed for users to track and manage their financial tasks and small-scale transactions (e.g., "Record Monthly Expense," "Check Budget Status").
+## 1. Feature Development Scope
+Your primary focus is developing the core features:
+1.  **Login Module:** Implement secure authentication logic.
+2.  **CRUD Functionality:** Enable users to **C**reate, **R**ead, **U**pdate, and **D**elete financial records. Each record must include **Type (Income/Expense)**, **Description**, **Amount**, and **Date**.
+3.  **CI/CD Integration:** Ensure your code is compatible with the automated pipeline, particularly how dependencies are managed and how the application starts inside a Docker container.
 
-The core objective of this project is to implement a robust **Continuous Integration/Continuous Deployment (CI/CD)** pipeline, ensuring automated testing and deployment for every code change, which is a key requirement of this group project.
+## 2. Unit Test Implementation (Mandatory)
+You are responsible for implementing **all Unit Tests** and ensuring they run successfully in the CI/CD pipeline.
 
------
+* **Requirement:** You must implement **at least 5 Unit Tests**.
+* **Focus Areas:** Ensure tests cover the API/Service layer for:
+    * **Authentication:** Testing password hashing, user registration, and token validation.
+    * **Data Validation (Spec E):** Testing that the CRUD endpoints correctly handle invalid inputs (e.g., negative amounts, empty descriptions).
+
+## 3. Deployment Artifacts
+* **Dockerfile:** Maintain the `Dockerfile` to ensure the application environment is correctly set up for the final Container deployment. 
+* **Testing Integration:** Work with the Tester to ensure the integration points (API endpoints) are stable for their Automation Tests.
+
+# Developer Onboarding Guide
 
 ## 📁 Project Structure & File Layout
 
 To ensure the team works in alignment, the project will follow this file structure:
 
 ```
-financeflow/
+financial-tracker/
 │
 ├── .github/
 │   └── workflows/
-│       └── main.yml        # Main CI/CD Pipeline for the project
+│       └── dev.yml        # Main CI/CD Pipeline for the project
 │
 ├── backend/                # Folder for the Backend (API)
 │   ├── src/
-│   │   ├── function/    # function
+│   │   ├── function/       # function
 │   │   ├── controllers/    # Request/Response handling logic
 │   │   ├── services/       # Core business logic
 │   │   ├── routes/         # API route definitions
@@ -40,75 +54,190 @@ financeflow/
 │   │
 │   └── package.json
 │
-└── tests/                  # Folder for Automation Tests (E2E)
+└── tests/                  # Folder for Automation Tests (E2E) - Handled by Tester
     ├── e2e/
-    │   ├── auth.spec.js    # Test Cases for Spec A, B, C
-    │   └── crud.spec.js    # Test Cases for Spec D, E, F
-    │
     └── fixtures/
-        └── user-data.json  # Mock data for testing purposes
 
 ```
 
+## **1. Prerequisites**
+
+Before you begin, please ensure you have the following installed on your machine:
+
+  - **Node.js** (v18 or later)
+  - **npm** or **yarn**
+  - **Git**
+  - **Docker Desktop**
+  - A code editor (e.g., VS Code)
+
+## **2. Initial Project Setup (For All Developers)**
+
+Everyone must complete these initial steps to get the project running locally.
+
+1.  **Clone the Repository:**
+
+    ```bash
+    git clone <repository_url>
+    cd financial-tracker
+    ```
+
+2.  **Install Dependencies:** The project is split into a `backend` and `frontend`. You will need to install dependencies for both.
+
+    ```bash
+    # Install backend dependencies
+    cd backend
+    npm install
+
+    # Install frontend dependencies
+    cd ../frontend
+    npm install
+    ```
+
+## **3. Developer Roles & Step-by-Step Instructions**
+
+Follow the instructions specific to your role.
+
+### **Developer 1: Backend Lead & DevOps**
+
+**Primary Goal:** Build the backend foundation, implement core features, and prepare the project for deployment.
+
+  * **Step 1: Project & API Foundation**
+
+    1.  **Initialize Project:** Set up the initial Node.js/Express project structure inside the `/backend` directory.
+    2.  **Implement Login API:** Create the authentication endpoint.
+          * **Endpoint:** `POST /api/auth/login`
+          * **Request Body:** `{ "email": "user@example.com", "password": "securepassword" }`
+          * **Success Response:** `200 OK` with a JSON object containing a JWT token: `{ "token": "your_jwt_token" }`
+
+  * **Step 2: Core Feature - "Create Task"**
+
+    1.  Develop the API endpoint for adding a new financial record.
+          * **Endpoint:** `POST /api/tasks`
+          * **Request Body:** `{ "description": "Coffee", "amount": -4.50, "type": "expense" }`
+          * **Success Response:** `201 Created` with the newly created task object.
+
+  * **Step 3: Unit Testing**
+
+    1.  Write a unit test for the "Create Task" functionality.
+    2.  The test should verify that given valid input, the service function correctly saves the data.
+    3.  **File Location:** `backend/src/services/task.service.test.js`
+
+  * **Step 4: Dockerize the Application**
+
+    1.  Create a `Dockerfile` in the `backend` root directory.
+    2.  The Dockerfile should:
+          * Use an official Node.js image.
+          * Copy `package.json` and install dependencies.
+          * Copy the rest of the application code.
+          * Expose the application port (e.g., 3000).
+          * Define the command to start the server.
+
 -----
 
-## ✅ Project Requirements Checklist
+### **Developer 2: Backend API**
 
-All work must adhere to the following mandatory project requirements:
+**Primary Goal:** Complete the remaining API functionality to ensure full data management capabilities.
 
-1.  **Authentication:** The system **must** include at least one Login screen (either Front-end UI or API-based authentication).
-2.  **Automated Deployment:** Deployment **must** be automated via a CI/CD pipeline connected to this remote repository.
-3.  **Containerization:** The final build **must** successfully deploy a Docker image to a Container Repository (e.g., Docker Hub).
-4.  **Unit Testing:** The project **must** contain a number of Unit Tests equal to or greater than the number of group members.
-5.  **Quality Check:** All team members share joint responsibility for fixing issues arising from the Build, Test, and Deploy phases.
+  * **Step 1: Core Feature - "Update Task"**
 
------
+    1.  Develop the API endpoint for modifying an existing financial record.
+          * **Endpoint:** `PUT /api/tasks/:id`
+          * **Request Body:** `{ "description": "Lunch with team", "amount": -25.00 }`
+          * **Success Response:** `200 OK` with the fully updated task object.
 
-## 🔄 Team Workflow: From Code to Deployment
+  * **Step 2: Supporting APIs for Frontend**
 
-Our workflow is interconnected through an automated CI/CD pipeline, which is the core mechanism that enables seamless collaboration between Developers and Testers.
+    1.  To support the UI, create the following endpoints:
+          * **Get All Tasks:** `GET /api/tasks` - Returns an array of all task objects.
+          * **Delete Task:** `DELETE /api/tasks/:id` - Deletes a task and returns a `204 No Content` or `200 OK` with a success message.
 
-| Stage | Action | Triggered By | Responsibility |
-| :--- | :--- | :--- | :--- |
-| **1. Build & Lint** | Install dependencies, check code style, and build the application. | Developer Push | Developer |
-| **2. Test: Unit** | Run all required Unit Tests. **Must Pass**. | Developer Push | Developer |
-| **3. Test: Automation (E2E)** | Run comprehensive automated Test Cases. **Must Pass**. | Stage 2 Success | Tester |
-| **4. Containerize** | Build the official Docker Image from the `Dockerfile`. | Stage 3 Success | Developer/PM |
-| **5. Deploy** | Push the Docker Image to the Container Registry. | Stage 4 Success | PM |
+  * **Step 3: Unit Testing**
 
-**Collaboration Model:**
+    1.  Write a unit test for the "Update Task" functionality.
+    2.  The test should verify that the service function correctly updates the specified record with new data.
+    3.  **File Location:** `backend/src/services/task.service.test.js`
 
-  * **Developer:** Responsible for developing features and writing Unit Tests that align with the **Test Spec**. The pipeline starts automatically as soon as code is pushed.
-  * **Tester:** Responsible for creating Automation (E2E) Tests according to the **Test Spec** to validate the system's overall functionality in Stage 3. If this stage fails, the Developer must resolve the issue.
+  * **Step 4: Collaboration**
 
------
-## Function
-| Func ID | Description      |
-| --------- | --------------- |
-| 1 | createTask(taskData) |
-| 2 | summaryTask(taskData) |
-| 3 | updateTask(id, taskData) |
-| 4 | deleteTask(id, taskData) |
-| 5 | convertCurrency(from, to, taskData) |
+    1.  Communicate clearly with **Developer 3 (Frontend)** about the structure (`shape`) of API requests and responses.
+    2.  Work with the **Tester** to perform integration testing and resolve any bugs that arise.
 
 -----
 
-## 📋 General Test Specification (Test Spec)
+### **Developer 3: Frontend**
 
-This table serves as the **"blueprint"** and **"shared agreement"** between Developers and Testers. All development and testing must adhere to these specifications.
+**Primary Goal:** Build the complete user interface and connect it to all backend APIs.
 
-## 3. Spec → Test mapping (must be automated)
+  * **Step 1: UI Scaffolding**
 
-| Spec ID | Test Suite          | HTTP Client | HTTP Method | API Endpoint            | Description                                                   | Expected Outcome (CI)                                                          |
-| ------- | ------------------- | ----------- | ----------- | ----------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Spec A  | Login (valid)       | Axios       | POST        | `/api/auth/login`       | Authenticate user with valid credentials, return JWT token.   | HTTP 200 + `token` (JWT)                                                       |
-| Spec B  | Login (invalid)     | Axios       | POST        | `/api/auth/login`       | Authenticate user with invalid credentials, return 401 error. | HTTP 401 + error message                                                       |
-| Spec C  | Create record       | Axios       | POST        | `/api/tasks`            | Create a new task record, return 201 with created JSON.       | POST `/api/tasks` → 201 + record JSON                                          |
-| Spec D  | Summary          | Axios       | GET        | `/api/sum`            | Retrieve summary information or statistics of all tasks. | HTTP 200 + summary JSON (e.g., total tasks, completed count)                                   |
-| Spec E  | Update record       | Axios       | PUT         | `/api/tasks/:id`        | Update a task by ID, return 200 with updated JSON.            | PUT `/api/tasks/:id` → 200 + persisted change                                  |
-| Spec F  | Delete record       | Axios       | DELETE      | `/api/tasks/:id`        | Delete a task by ID, return 200 confirmation message.         | DELETE `/api/tasks/:id` → 200 + success message                                |
-| Spec G  | Currency conversion | Axios       | GET         | `/api/currency/convert` | Convert a given amount from one currency to another.          | GET `/api/currency/convert?from=USD&to=THB&amount=10` → 200 + converted result |
+    1.  Set up the initial project structure in the `/frontend` directory using a framework like React, Vue, or Angular.
+    2.  Create the primary UI components:
+          * `LoginPage.js`: A page with a form for user login.
+          * `DashboardPage.js`: The main page to display after a user logs in.
 
+  * **Step 2: Core Feature - "View All Tasks"**
 
-  * **For Developers:** Your goal is to implement features that meet the description for each Spec ID. Your Unit Tests should cover the logic for these requirements.
-  * **For Testers:** Your Automation (E2E) scripts must be created to verify the functionality of each Spec ID. Test case names should correspond to the Spec ID (e.g., `test('Spec A: Successful Login...')`) for easy traceability.
+    1.  On the `DashboardPage`, implement the logic to call the `GET /api/tasks` endpoint after the user is authenticated.
+    2.  Display the fetched financial records in a list or a table. Each item should clearly show the description and amount.
+
+  * **Step 3: Implement UI for Data Management**
+
+    1.  **Create Forms:** Build reusable form components for "Adding" and "Editing" tasks.
+    2.  **Connect Actions:**
+          * The "Add Task" form should submit a `POST` request to `/api/tasks`.
+          * The "Edit Task" form should submit a `PUT` request to `/api/tasks/:id`.
+          * Add a "Delete" button to each task item that sends a `DELETE` request to `/api/tasks/:id`.
+
+  * **Step 4: Unit Testing**
+
+    1.  Write a unit test for the UI component that displays a single task item.
+    2.  The test should verify that the component renders the description and amount correctly based on the props it receives.
+    3.  **File Location:** `frontend/src/components/TaskItem.test.js`
+
+## **4. Branching & Workflow**
+
+To ensure we work together smoothly, please follow this Git workflow:
+
+1.  **`main` branch is protected.** All work must be done on feature branches.
+2.  **Create a new branch** from `dev` for every new task. Use a clear naming convention:
+      * `feature/backend-login-api`
+      * `feature/frontend-dashboard-ui`
+3.  **Commit your work** regularly with clear messages.
+4.  **Open a Pull Request (PR)** to merge your feature branch into the `dev` branch when your task is complete.
+5.  **Request a review** from at least one other team member before merging.
+
+## **5. How to Run the Project Locally**
+
+  * **To run the Backend Server:**
+
+    ```bash
+    cd backend
+    npm run dev
+    ```
+
+    The server will be available at `http://localhost:3000`.
+
+  * **To run the Frontend Application:**
+
+    ```bash
+    cd frontend
+    npm start
+    ```
+
+    The app will be available at `http://localhost:3001` (or as specified by your framework).
+
+## **6. How to Run Tests**
+
+  * **To run Backend Unit Tests:**
+
+    ```bash
+    cd backend
+    npm test
+    ```
+
+  * **To run Frontend Unit Tests:**
+
+    ```bash
+    cd frontend
+    npm test
+    ```
