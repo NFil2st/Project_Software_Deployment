@@ -75,7 +75,7 @@ jobs:
       - name: 🐳 Run Application Test
         run: |
           echo "Starting application with Docker Compose..."
-          docker-compose up -d
+          docker compose up -d
           sleep 10
           
           # Test backend API
@@ -87,7 +87,7 @@ jobs:
           echo "✅ Application running successfully!"
           
           # Cleanup
-          docker-compose down
+          docker compose down
 
   deploy-ready:
     name: 🚀 Deployment Ready
