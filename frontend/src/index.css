@@ -8,6 +8,8 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: #ffffff;
   color: #333333;
+  padding: 0;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Prevent text size adjustment on mobile */

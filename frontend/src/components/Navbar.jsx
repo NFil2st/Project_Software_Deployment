@@ -21,7 +21,7 @@ const Navbar = ({ currentPage, onNavigate, onLogout, user }) => {
         {/* Logo/Brand */}
         <div className="navbar-brand">
           <FaWallet className="brand-icon" />
-          <span className="brand-text">ระบบรายรับ-รายจ่าย</span>
+          <span className="brand-text">Financial Tracker</span>
         </div>
 
         {/* Navigation Items */}

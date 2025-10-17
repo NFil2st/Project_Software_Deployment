@@ -46,7 +46,7 @@ export default (function init(){
   const app = document.getElementById('app');
   const container = document.createElement('div'); container.className='container';
   const header = document.createElement('div'); header.className='header';
-  const h1 = document.createElement('h1'); h1.textContent = 'ระบบรายรับ-รายจ่าย (Vanilla)';
+  const h1 = document.createElement('h1'); h1.textContent = 'Financial Tracker (Vanilla)';
   header.appendChild(h1);
   container.appendChild(header);
 

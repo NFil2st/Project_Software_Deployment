@@ -8,7 +8,7 @@
 /* Left Section - Dashboard Preview */
 .dashboard-preview {
   flex: 0 0 60%;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: #ffffff;
   padding: 40px;
   position: relative;
   overflow: hidden;

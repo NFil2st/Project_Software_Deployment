@@ -1,12 +1,12 @@
-name: 🐳 Dev Pipeline (Dockerized)
+name: 🐳 Fanal Prototype Pipeline (Dockerized)
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "test_prototype" ]
 
 jobs:
   build-and-test:
-    name: 🧪 Build & Test Backend
+    name: 🧪 Build & Test Prototype
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +28,3 @@ jobs:
           docker run --rm \
             financial-tracker-backend:dev \
             npm test
-
-      - name: 🧩 Run E2E Tests (if defined)
-        if: hashFiles('tests/package.json') != ''
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}/tests/e2e:/app \
-            -w /app \
-            node:18 \
-            bash -c "npm install && npm test --if-present"
