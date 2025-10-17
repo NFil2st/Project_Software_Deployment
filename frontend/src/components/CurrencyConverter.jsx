@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaArrowRight, FaExchangeAlt } from 'react-icons/fa';
 import api from '../services/api.js';
 import Navbar from './Navbar.jsx';
+import { formatNumber } from '../utils/formatNumber.js';
 import '../App.css';
 
 const CurrencyConverter = ({ onBack, onNavigate, onLogout, user, currentPage }) => {
@@ -140,7 +141,7 @@ const CurrencyConverter = ({ onBack, onNavigate, onLogout, user, currentPage }) 
                 </div>
 
                 <div className="currency-arrow">
-                  <FaArrowRight className="arrow-icon" />
+                  <FaExchangeAlt className="arrow-icon" />
                 </div>
 
                 <div className="form-group">
@@ -212,7 +213,7 @@ const CurrencyConverter = ({ onBack, onNavigate, onLogout, user, currentPage }) 
                   <div className="original-amount">
                     <span className="label">Original Amount:</span>
                     <span className="amount">
-                      {result.originalAmount} {result.originalCurrency}
+                      {formatNumber(result.originalAmount)} {result.originalCurrency}
                     </span>
                   </div>
                   
@@ -221,7 +222,7 @@ const CurrencyConverter = ({ onBack, onNavigate, onLogout, user, currentPage }) 
                   <div className="converted-amount">
                     <span className="label">Converted Amount:</span>
                     <span className="amount converted">
-                      {result.amount} {result.currency}
+                      {formatNumber(result.amount)} {result.currency}
                     </span>
                   </div>
                 </div>

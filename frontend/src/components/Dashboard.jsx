@@ -4,6 +4,7 @@ import { createTransactionList } from './TransactionList.js';
 import { createSummary } from './Summary.js';
 import Navbar from './Navbar.jsx';
 import api from '../services/api.js';
+import { formatNumber } from '../utils/formatNumber.js';
 import './style.css';
 
 const Dashboard = ({ onLogout, onNavigate, currentPage, user }) => {
@@ -292,7 +293,7 @@ const TransactionList = ({ tasks, onEdit, onDelete }) => {
           </div>
           <div className="transaction-amount">
             <span className={`amount ${task.type}`}>
-              {task.type === 'expense' ? '-' : '+'}฿{Math.abs(task.amount).toFixed(2)}
+              {task.type === 'expense' ? '-' : '+'}฿{formatNumber(Math.abs(task.amount))}
             </span>
           </div>
           <div className="transaction-actions">
@@ -330,16 +331,16 @@ const Summary = ({ tasks }) => {
       <h2>Financial Summary</h2>
       <div className="summary-item">
         <span className="label">Total Income:</span>
-        <span className="amount income">+฿{summary.totalIncome.toFixed(2)}</span>
+        <span className="amount income">+฿{formatNumber(summary.totalIncome)}</span>
       </div>
       <div className="summary-item">
         <span className="label">Total Expense:</span>
-        <span className="amount expense">-฿{summary.totalExpense.toFixed(2)}</span>
+        <span className="amount expense">-฿{formatNumber(summary.totalExpense)}</span>
       </div>
       <div className="summary-item total">
         <span className="label">Balance:</span>
         <span className={`amount ${balance >= 0 ? 'income' : 'expense'}`}>
-          {balance >= 0 ? '+' : ''}฿{balance.toFixed(2)}
+          {balance >= 0 ? '+' : ''}฿{formatNumber(Math.abs(balance))}
         </span>
       </div>
     </div>

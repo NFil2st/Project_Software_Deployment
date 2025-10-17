@@ -1,6 +1,17 @@
 // components/Summary.js
 import api from '../services/api.js';
 
+function formatNumber(num, decimals = 2) {
+  if (num === null || num === undefined || isNaN(num)) {
+    return '0.00';
+  }
+  const number = Number(num);
+  const fixed = number.toFixed(decimals);
+  const parts = fixed.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
 export function createSummary(tasks = []) {
   const card = document.createElement('div');
   card.className = 'card';
@@ -19,13 +30,13 @@ export function createSummary(tasks = []) {
       const res = await api.sumTransactions(tasks || []);
       if(res && res.data){
         const s = res.data;
-        incomeDiv.textContent = `รวมรายรับ: ${s.totalIncome}`;
-        expenseDiv.textContent = `รวมรายจ่าย: ${s.totalExpense}`;
-        balanceDiv.textContent = `คงเหลือ: ${s.balance}`;
+        incomeDiv.textContent = `รวมรายรับ: ${formatNumber(s.totalIncome)}`;
+        expenseDiv.textContent = `รวมรายจ่าย: ${formatNumber(s.totalExpense)}`;
+        balanceDiv.textContent = `คงเหลือ: ${formatNumber(s.balance)}`;
       } else {
-        incomeDiv.textContent = 'รวมรายรับ: 0';
-        expenseDiv.textContent = 'รวมรายจ่าย: 0';
-        balanceDiv.textContent = 'คงเหลือ: 0';
+        incomeDiv.textContent = 'รวมรายรับ: 0.00';
+        expenseDiv.textContent = 'รวมรายจ่าย: 0.00';
+        balanceDiv.textContent = 'คงเหลือ: 0.00';
       }
     } catch (err){
       console.error(err);

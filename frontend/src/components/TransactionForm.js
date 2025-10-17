@@ -1,6 +1,17 @@
 // components/TransactionForm.js
 import api from '../services/api.js';
 
+function formatNumber(num, decimals = 2) {
+  if (num === null || num === undefined || isNaN(num)) {
+    return '0.00';
+  }
+  const number = Number(num);
+  const fixed = number.toFixed(decimals);
+  const parts = fixed.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
 /**
  * createTransactionForm(onSaved, editingState)
  * - onSaved(): called when saved (so caller reloads)
@@ -98,7 +109,7 @@ export function createTransactionForm(onSaved, editingState) {
         // update fields
         inputAmount.value = res.data.amount;
         selectCurrency.value = res.data.currency;
-        alert(`แปลงสำเร็จ: ${res.data.originalAmount} ${res.data.originalCurrency} → ${res.data.amount} ${res.data.currency}`);
+        alert(`แปลงสำเร็จ: ${formatNumber(res.data.originalAmount)} ${res.data.originalCurrency} → ${formatNumber(res.data.amount)} ${res.data.currency}`);
       } else {
         alert(res.message || 'แปลงไม่สำเร็จ');
       }

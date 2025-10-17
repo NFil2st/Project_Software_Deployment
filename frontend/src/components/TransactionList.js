@@ -1,4 +1,15 @@
 // components/TransactionList.js
+function formatNumber(num, decimals = 2) {
+  if (num === null || num === undefined || isNaN(num)) {
+    return '0.00';
+  }
+  const number = Number(num);
+  const fixed = number.toFixed(decimals);
+  const parts = fixed.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
 export function createTransactionList(tasks = [], onEdit, onDelete) {
   const card = document.createElement('div');
   card.className = 'card';
@@ -22,9 +33,10 @@ export function createTransactionList(tasks = [], onEdit, onDelete) {
     const tr = document.createElement('tr');
     const id = t._id || t.id || '';
     const created = t.createdAt ? new Date(t.createdAt).toLocaleString() : '';
+    const formattedAmount = (t.amount != null) ? formatNumber(t.amount) : '';
     tr.innerHTML = `
       <td>${escapeHtml(t.title || '')}</td>
-      <td>${(t.amount != null) ? t.amount : ''}</td>
+      <td>${formattedAmount}</td>
       <td>${t.currency || 'THB'}</td>
       <td>${t.type || ''}</td>
       <td>${escapeHtml(t.category || '')}</td>
